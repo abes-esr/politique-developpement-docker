@@ -3,7 +3,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/abesesr/politique-developpement.svg)](https://hub.docker.com/r/abesesr/politique-developpement/)
 
 Configuration docker 🐳 pour déployer le site web https://politique-developpement.abes.fr  
-Le code source et le contenu du site est disponible ici : https://github.com/abes-esr/politique-developpement
+Le code source et le contenu du site est disponible ici : https://github.com/abes-esr/abes-politique-developpement
 
 ## URLs
 
