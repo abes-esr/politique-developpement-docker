@@ -37,7 +37,7 @@ cd /opt/pod/
 git clone https://github.com/abes-esr/politique-developpement-docker.git
 ```
 
-Configurer l'application depuis l'exemple du [fichier ``.env-dist``](./.env-dist) (ce fichier contient la liste des variables avec des explications et des exemples de valeurs) :
+Configurer l'application depuis l'exemple du fichier [``.env-dist``](./.env-dist) (ce fichier contient la liste des variables avec des explications et des exemples de valeurs) :
 ```bash
 cd /opt/pod/politique-developpement-docker/
 cp .env-dist .env
