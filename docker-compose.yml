@@ -1,0 +1,64 @@
+#
+# Ci-dessous la config qui permet de lancer politique-developpement-docker
+#
+# Remarque: avant de lancer docker-compose up, il faut régler le fichier .env
+# en partant du fichier .env-dist qui donne les variables d'environnements
+# à personnaliser et des exemples de valeurs.
+#
+
+version: "1.0"
+
+services:
+
+  politique-developpement:
+    image: abesesr/politique-developpement:${POLITIQUE_DEVELOPPEMENT_VERSION}
+    container_name: politique-developpement
+    restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
+    memswap_limit: ${MEM_LIMIT}
+    cpus: ${CPU_LIMIT}
+    environment:
+      POLITIQUE_DEVELOPPEMENT_HTTP_BASEURL: ${POLITIQUE_DEVELOPPEMENT_HTTP_BASEURL}
+    ports:
+      - ${POLITIQUE_DEVELOPPEMENT_HTTP_PORT}:80
+    labels:
+      # pour envoyer les logs dans le puits de log de l'abes
+      - "co.elastic.logs/enabled=true"
+      - "co.elastic.logs/processors.add_fields.target="
+      - "co.elastic.logs/processors.add_fields.fields.abes_appli=projetetab"
+      - "co.elastic.logs/processors.add_fields.fields.abes_middleware=nginx"
+      # pour que les mises à jour de cette image soient auto-déployées par watchtower
+      - "com.centurylinklabs.watchtower.scope=politique-developpement-watchtower-scope"
+
+
+
+
+
+  #######################################
+  # politique-developpement-watchtower
+  politique-developpement-watchtower:
+    image: containrrr/watchtower:1.4.0
+    container_name: politique-developpement-watchtower
+    restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
+    memswap_limit: ${MEM_LIMIT}
+    cpus: ${CPU_LIMIT}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: 60
+      WATCHTOWER_DEBUG: "false"
+      WATCHTOWER_NO_STARTUP_MESSAGE: "true"
+      WATCHTOWER_WARN_ON_HEAD_FAILURE: "never"
+      WATCHTOWER_RUN_ONCE: ${POLITIQUE_DEVELOPPEMENT_WATCHTOWER_RUN_ONCE}
+      WATCHTOWER_NOTIFICATIONS: "slack"
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${POLITIQUE_DEVELOPPEMENT_WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
+      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${POLITIQUE_DEVELOPPEMENT_WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER}
+      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: "#notif-politique-developpement"
+      WATCHTOWER_SCOPE: "politique-developpement-watchtower-scope"
+    labels:
+      - "com.centurylinklabs.watchtower.scope=politique-developpement-watchtower-scope"
+
+
+
