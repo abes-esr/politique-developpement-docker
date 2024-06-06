@@ -6,8 +6,6 @@
 # à personnaliser et des exemples de valeurs.
 #
 
-version: "1.0"
-
 services:
 
   politique-developpement:
