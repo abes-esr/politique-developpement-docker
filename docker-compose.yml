@@ -55,6 +55,8 @@ services:
       WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${POLITIQUE_DEVELOPPEMENT_WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER}
       WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: "#notif-politique-developpement"
       WATCHTOWER_SCOPE: "politique-developpement-watchtower-scope"
+      REPO_USER: ${POLDEV_WATCHTOWER_DOCKERHUB_USER}
+      REPO_PASS: ${POLDEV_WATCHTOWER_DOCKERHUB_PASS}
     labels:
       - "com.centurylinklabs.watchtower.scope=politique-developpement-watchtower-scope"
 
